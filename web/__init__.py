@@ -37,20 +37,20 @@ def before_request():
     for ignore_pre in IGNORE_PREFIX:
         if p.startswith(ignore_pre):
             return
-
-    if 'user_name' in session and session['user_name']:
-        g.user_name = session['user_name']
-    else:
-        sig = request.cookies.get('sig')
-        if not sig:
-            return redirect_to_sso()
-
-        username = uic.username_from_sso(sig)
-        if not username:
-            return redirect_to_sso()
-
-        session['user_name'] = username
-        g.user_name = session['user_name']
+    app.logger.error('logger測試啦！')
+#    if 'user_name' in session and session['user_name']:
+#        g.user_name = session['user_name']
+#    else:
+    sig = request.cookies.get('sig')
+    if not sig:
+        return redirect_to_sso()
+    app.logger.error('有signature啦！')
+    username = uic.username_from_sso(sig)
+    if not username:
+        return redirect_to_sso()
+    app.logger.error('有username啦！')
+#    session['user_name'] = username
+    g.user_name = username#session['user_name']
 
 
 def redirect_to_sso():
